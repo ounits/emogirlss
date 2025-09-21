@@ -35,7 +35,7 @@ local floor = math.floor
 local min = math.min
 local abs = math.abs
 
-if getgenv().library and getgenv().library.unload then
+if getgenv().library then
 	getgenv().library:unload()
 end
 
@@ -47,13 +47,13 @@ getgenv().library = {
 	notifications = {},
 	instances = {},
 	main_frame = {},
-	config_holder = nil,
-	current_tab = nil,
-	current_element_open = nil,
-	dock_button_holder = nil,
-	gui = nil,
+	config_holder,
+	current_tab,
+	current_element_open,
+	dock_button_holder,
+	gui,
 	sin = 0,
-	keybind_path = nil,
+	keybind_path,
 	panel_open = false,
 
 	directory = "inactivity",
@@ -61,7 +61,7 @@ getgenv().library = {
 		"/fonts",
 		"/configs",
 	},
-	font = nil,
+	font,
 }
 
 local flags = library.flags
@@ -2758,13 +2758,13 @@ function library:section(properties)
 		Text = cfg.name,
 		TextStrokeTransparency = 0.5,
 		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 1),
 		BackgroundTransparency = 1,
 		TextXAlignment = Enum.TextXAlignment.Left,
 		Position = UDim2.new(0, 8, 0, 0),
 		ZIndex = 2,
 		TextSize = 12,
 		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-		Size = UDim2.new(1, 0, 0, 1),
 	})
 
 	local section = library:create("Frame", {
@@ -3405,14 +3405,14 @@ function library:slider(properties)
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			Text = cfg.name,
 			TextStrokeTransparency = 0.5,
-			AutomaticSize = Enum.AutomaticSize.Y,
-			TextYAlignment = Enum.TextYAlignment.Top,
-			TextSize = 12,
-			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			Size = UDim2.new(1, -26, 0, 12),
 			BorderSizePixel = 0,
 			BackgroundTransparency = 1,
 			TextXAlignment = Enum.TextXAlignment.Left,
+			AutomaticSize = Enum.AutomaticSize.Y,
+			TextYAlignment = Enum.TextYAlignment.Top,
+			TextSize = 12,
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 		})
 
 		bottom_components = library:create("Frame", {
@@ -3642,14 +3642,15 @@ function library:dropdown(properties)
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			Text = cfg.name,
 			TextStrokeTransparency = 0.5,
+			Size = UDim2.new(1, -26, 0, 12),
+			BorderSizePixel = 0,
+			ZIndex = 2,
+			BackgroundTransparency = 1,
+			TextXAlignment = Enum.TextXAlignment.Left,
 			AutomaticSize = Enum.AutomaticSize.Y,
 			TextYAlignment = Enum.TextYAlignment.Top,
 			TextSize = 12,
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-			Size = UDim2.new(1, -26, 0, 12),
-			BorderSizePixel = 0,
-			BackgroundTransparency = 1,
-			TextXAlignment = Enum.TextXAlignment.Left,
 		})
 
 		bottom_components = library:create("Frame", {
@@ -3929,7 +3930,7 @@ function library:colorpicker(properties)
 		alpha = properties.alpha or 1,
 		callback = properties.callback or function() end,
 		animation = "normal",
-		saved_color = nil,
+		saved_color,
 		right_holder = self.right_holder or nil,
 		holder = self.holder or nil,
 	}
@@ -4513,7 +4514,7 @@ function library:colorpicker(properties)
 		sat.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
 
 		local s_offset = (s < 1) and 0 or -3
-		local v_offset = (1- v < 1) and 0 or -3
+		local v_offset = (1 - v < 1) and 0 or -3
 		sat_black_cursor.Position = dim2(s, s_offset, 1 - v, v_offset)
 
 		cfg.color = Color
@@ -4700,14 +4701,13 @@ function library:keybind(properties)
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			Text = cfg.name,
 			TextStrokeTransparency = 0.5,
-			AutomaticSize = Enum.AutomaticSize.Y,
-			TextYAlignment = Enum.TextYAlignment.Top,
-			TextSize = 12,
-			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			Size = UDim2.new(1, -26, 0, 12),
 			BorderSizePixel = 0,
 			BackgroundTransparency = 1,
 			TextXAlignment = Enum.TextXAlignment.Left,
+			TextYAlignment = Enum.TextYAlignment.Top,
+			TextSize = 12,
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 		})
 
 		right_components = library:create("Frame", {
@@ -5424,3 +5424,5 @@ function library:panel(properties)
 end
 --
 --
+
+return library
